@@ -1,21 +1,22 @@
-'''
-Here I dedicate to make a version of cipher of Caesar.
-This programa will be input a text and transposition value.
-By @jszvitor
-'''
+# Here I dedicate to make a version of cipher of Caesar.
+# This programa will be input a text and transposition value.
+# By @jszvitor. Oriented by Don't Repeat Yourself(DRY) principle.
 
-import sys # biblioteca para funções do sistema - fornecer os comandos do script pelo terminal ou cmd
-import string # biblioteca para manipulação de textos - pegaremos o alfabeto
+import sys # standard system library - user provides script commands via terminal or cmd
+from string import ascii_lowercase as ALPHABET # library for string - we'll get the alphabet
 
 
 def cipher(message, dir, rot):
-    ALPHABET = string.ascii_lowercase
-    m = '' # mensagem cifrada
-    for caracter in message: # para cada letra no arquivo ele vai executar o bloco de código abaixo
-        if caracter in ALPHABET: # se a letra existir no alfabeto ele continua
-            caracter_index = ALPHABET.index(caracter) # aqui pegamos a posicao da letra em forma numerica. Também poderia ser o usado o .find() no lugar do .index()
-            caracter_index = (caracter_index +(dir*rot)) % 26 # Somamos posicao a rotacao e mod 26 p/ tornar um ciclo em torno do alfabeto
-            m += ALPHABET[caracter_index] # concatenamos o resultado na variavel mensagem
+    """
+    This function take a argument 'message' and, based in argument 'dir',
+    performs an encryption or decryption operation with the rotation provided by 'rot' argument.
+    Finally, will return the ciphered message.
+    """
+    m = '' # ciphered message
+    for caracter in message:
+        if caracter in ALPHABET:
+            caracter_index = ALPHABET.index(caracter)
+            m += ALPHABET[(caracter_index +(dir*rot)) % 26]
         else:
             m += caracter
     return m
@@ -40,3 +41,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# For execute this program:
+# command: encrypt or decrypt
+# message: string
+# rot: integer
+# $ python3 CipherOfCaesar.py command message rot
+# >>>
+# exemple:
+# $ python3 CipherOfCaesar.py encrypt 'abc' 1
+# >>> bcd
+# $ python3 CipherOfCaesar.py decrypt 'bcd' 1
+# >>> abc
